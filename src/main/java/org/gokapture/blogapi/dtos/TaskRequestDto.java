@@ -3,6 +3,7 @@ package org.gokapture.blogapi.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.gokapture.blogapi.models.BaseModel;
 import org.gokapture.blogapi.models.Task;
 import org.gokapture.blogapi.models.enums.TaskStatus;
 
@@ -18,6 +19,8 @@ public class TaskRequestDto {
     private TaskStatus status;
     private Task.Priority priority;
     private LocalDateTime dueDate;
+    private Long userId;
+
 
 
 }

@@ -4,8 +4,10 @@ import org.gokapture.blogapi.Mapper.TaskMapper;
 import org.gokapture.blogapi.dtos.TaskRequestDto;
 import org.gokapture.blogapi.dtos.TaskResponseDto;
 import org.gokapture.blogapi.models.Task;
+import org.gokapture.blogapi.models.User;
 import org.gokapture.blogapi.models.enums.TaskStatus;
 import org.gokapture.blogapi.repositories.TaskRepository;
+import org.gokapture.blogapi.repositories.UserRepository;
 import org.gokapture.blogapi.services.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +23,12 @@ public class TaskController {
 
     private final TaskRepository taskRepository;
     private final TaskService taskService;
+    private final UserRepository userRepository;
 
-    public TaskController(TaskService taskService,TaskRepository taskRepository) {
+    public TaskController(TaskService taskService,TaskRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
         this.taskService = taskService;
+        this.userRepository = userRepository;
     }
 
 
@@ -33,12 +37,16 @@ public class TaskController {
     @PostMapping("")
     public ResponseEntity<TaskResponseDto> createTask(@RequestBody TaskRequestDto request) {
 
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         Task task = new Task();
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setPriority(request.getPriority());
         task.setStatus(request.getStatus());
         task.setDueDate(request.getDueDate());
+        task.setUser(user);
 
 
         return new ResponseEntity<>(TaskMapper.toDto(taskService.createTask(task)), HttpStatus.CREATED);
