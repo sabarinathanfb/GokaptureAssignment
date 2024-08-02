@@ -3,10 +3,10 @@ package org.gokapture.blogapi.services;
 
 
 import org.gokapture.blogapi.exception.UserAlreadyExistsException;
+import org.gokapture.blogapi.exception.UserDoesNotFoundException;
 import org.gokapture.blogapi.models.User;
 import org.gokapture.blogapi.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.gokapture.blogapi.security.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +43,22 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         return savedUser;
+
+    }
+
+    public String login(String username, String password) throws UserDoesNotFoundException {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isEmpty()) {
+
+            throw new UserDoesNotFoundException("Username " + username + " Does Not Exist");
+
+        }
+
+        if (!passwordEncoder.matches(password, userOptional.get().getPassword())) {
+            throw new UserDoesNotFoundException("Username " + username + " Password Does Not Match");
+        }
+
+        return JwtUtil.generateToken(username);
 
     }
 }
