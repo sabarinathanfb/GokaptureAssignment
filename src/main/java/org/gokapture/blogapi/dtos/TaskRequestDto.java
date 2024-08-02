@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class TaskDto {
+public class TaskRequestDto {
 
     private String title;
     private String description;

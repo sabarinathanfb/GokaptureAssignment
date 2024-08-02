@@ -1,20 +1,15 @@
 package org.gokapture.blogapi.controllers;
 
-import org.gokapture.blogapi.Mapper.Mapper;
 import org.gokapture.blogapi.Mapper.TaskMapper;
-import org.gokapture.blogapi.dtos.TaskDto;
+import org.gokapture.blogapi.dtos.TaskRequestDto;
 import org.gokapture.blogapi.dtos.TaskResponseDto;
 import org.gokapture.blogapi.models.Task;
 import org.gokapture.blogapi.repositories.TaskRepository;
 import org.gokapture.blogapi.services.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -34,7 +29,7 @@ public class TaskController {
 
 
     @PostMapping("")
-    public ResponseEntity<TaskResponseDto> createTask(@RequestBody TaskDto request) {
+    public ResponseEntity<TaskResponseDto> createTask(@RequestBody TaskRequestDto request) {
 
         Task task = new Task();
         task.setTitle(request.getTitle());
@@ -56,6 +51,29 @@ public class TaskController {
 
         return new ResponseEntity<>(TaskMapper.toDtoList(tasks),HttpStatus.OK);
 
+    }
+
+    @PutMapping("/{taskId}")
+    public ResponseEntity<TaskResponseDto> updateTask(@RequestBody TaskRequestDto request, @PathVariable("taskId") Long taskId) {
+        // Pass the ID along with the updated details
+        Task updatedTaskDetails = new Task();
+        updatedTaskDetails.setTitle(request.getTitle());
+        updatedTaskDetails.setDescription(request.getDescription());
+        updatedTaskDetails.setPriority(request.getPriority());
+        updatedTaskDetails.setStatus(request.getStatus());
+        updatedTaskDetails.setDueDate(request.getDueDate());
+
+        // Update the task and return the response
+        Task updatedTask = taskService.updateTask(taskId, updatedTaskDetails);
+        return new ResponseEntity<>(TaskMapper.toDto(updatedTask), HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<Void> deleteTask(@PathVariable("taskId") Long taskId) {
+        // Call the service method to delete the task
+        taskService.deleteTask(taskId);
+        // Return a 204 No Content status to indicate successful deletion
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
