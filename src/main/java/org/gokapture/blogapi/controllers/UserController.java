@@ -30,8 +30,8 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequestDto request) throws UserDoesNotFoundException {
 
-        userService.login(request.getUsername(), request.getPassword()); // Assuming login logic is correct
-        return new ResponseEntity<>(userService.login(request.getUsername(), request.getPassword()), HttpStatus.OK);
+        String token = userService.login(request.getUsername(), request.getPassword());
+        return new ResponseEntity<>(token, HttpStatus.OK);
 
     }
 
