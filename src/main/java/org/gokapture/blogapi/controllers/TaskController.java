@@ -4,12 +4,14 @@ import org.gokapture.blogapi.Mapper.TaskMapper;
 import org.gokapture.blogapi.dtos.TaskRequestDto;
 import org.gokapture.blogapi.dtos.TaskResponseDto;
 import org.gokapture.blogapi.models.Task;
+import org.gokapture.blogapi.models.enums.TaskStatus;
 import org.gokapture.blogapi.repositories.TaskRepository;
 import org.gokapture.blogapi.services.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -75,6 +77,37 @@ public class TaskController {
         // Return a 204 No Content status to indicate successful deletion
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
+    // Search tasks
+    @GetMapping("/search")
+    public List<Task> searchTasks(@RequestParam String searchTerm) {
+        return taskService.searchTasks(searchTerm);
+    }
+
+
+    // API endpoint to filter tasks by status
+    @GetMapping("/filter/status")
+    public List<Task> filterByStatus(@RequestParam String status) {
+        // Convert the status string to TaskStatus enum
+        TaskStatus taskStatus = TaskStatus.valueOf(status.toUpperCase());
+        return taskService.filterByStatus(taskStatus);
+    }
+
+    // Filter tasks by priority
+    @GetMapping("/filter/priority")
+    public List<Task> filterByPriority(@RequestParam String priority) {
+        return taskService.filterByPriority(priority);
+    }
+
+    // Filter tasks by due date
+    @GetMapping("/filter/dueDate")
+    public List<Task> filterByDueDate(@RequestParam LocalDate dueDate) {
+        return taskService.filterByDueDate(dueDate);
+    }
+
+
+
 
 
 

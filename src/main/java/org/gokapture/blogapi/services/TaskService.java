@@ -3,10 +3,13 @@ package org.gokapture.blogapi.services;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.gokapture.blogapi.models.Task;
+import org.gokapture.blogapi.models.enums.TaskStatus;
 import org.gokapture.blogapi.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,6 +52,27 @@ public class TaskService {
         }
         // Delete the task
         taskRepository.deleteById(taskId);
+    }
+
+    public List<Task> filterByStatus(TaskStatus status) {
+        return taskRepository.findByStatus(status);
+    }
+
+    // Filter tasks by priority
+    public List<Task> filterByPriority(String priority) {
+        return taskRepository.findByPriority(priority);
+    }
+
+    // Filter tasks by due date
+    public List<Task> filterByDueDate(LocalDate dueDate) {
+        return taskRepository.findByDueDate(dueDate);
+    }
+
+
+
+    // Search tasks
+    public List<Task> searchTasks(String searchTerm) {
+        return taskRepository.searchByTitleOrDescription(searchTerm);
     }
 
 

@@ -4,6 +4,7 @@ package org.gokapture.blogapi.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.gokapture.blogapi.models.enums.TaskStatus;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -16,7 +17,7 @@ public class Task extends BaseModel {
     private String title;
     private String description;
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private TaskStatus status;
     @Enumerated(EnumType.STRING)
     private Priority priority;
     private LocalDateTime dueDate;
@@ -28,11 +29,6 @@ public class Task extends BaseModel {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-    }
-    public enum Status {
-        TODO,
-        IN_PROGRESS,
-        DONE
     }
 
     public enum Priority {
