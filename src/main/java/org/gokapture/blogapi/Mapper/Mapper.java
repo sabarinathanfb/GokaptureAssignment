@@ -1,6 +1,8 @@
 package org.gokapture.blogapi.Mapper;
 
+import org.gokapture.blogapi.dtos.TaskResponseDto;
 import org.gokapture.blogapi.dtos.UserDto;
+import org.gokapture.blogapi.models.Task;
 import org.gokapture.blogapi.models.User;
 
 public class Mapper {
@@ -14,4 +16,6 @@ public class Mapper {
 
         return dto;
     }
+
+
 }
