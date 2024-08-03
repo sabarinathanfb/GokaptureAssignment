@@ -1,0 +1,34 @@
+Approach and Assumptions
+Approach:
+API Endpoints: The Postman collection was created to cover various endpoints of the Blog API related to task management. These include operations to create, retrieve, update, delete, and filter tasks.
+
+Method Types:
+
+POST: Used for creating new tasks.
+GET: Used for retrieving all tasks, searching tasks, and filtering tasks by status, priority, or due date.
+PUT: Used for updating existing tasks.
+DELETE: Used for deleting tasks.
+Request Configuration:
+
+Headers: For requests that require JSON payloads, the Content-Type header is set to application/json.
+Body: In POST and PUT requests, the body of the request is defined in raw JSON format to match the expected API input.
+URL Structure: The URLs are constructed based on the assumed endpoints provided in the API controller:
+
+Base URL: http://localhost:8080
+Endpoints are appended with specific paths for each operation (e.g., /api/tasks, /api/tasks/1, /api/tasks/search, etc.).
+Query Parameters: For search and filter operations, query parameters are included in the URL to pass search terms, statuses, priorities, and due dates.
+
+Assumptions:
+Base URL: The base URL http://localhost:8080 is assumed to be where the API is running. Adjustments may be needed based on the actual deployment environment.
+
+Task Data Model: The task data model includes fields such as title, description, priority, status, dueDate, and userId. The example values provided in the JSON request bodies are based on typical usage scenarios.
+
+Task IDs: For update and delete operations, it is assumed that the task ID is 1. In practice, this should be replaced with valid task IDs as applicable.
+
+Data Validity: It is assumed that the API will handle data validation and return appropriate responses based on the provided data.
+
+Server Configuration: The server is assumed to be configured to handle these endpoints without requiring additional authentication or authorization, which should be considered for a real-world scenario.
+
+Error Handling: The Postman collection does not include detailed error handling responses. It is assumed that the API will handle errors and return standard HTTP status codes for different scenarios (e.g., 404 Not Found for invalid task IDs).
+
+This Postman collection provides a foundation for interacting with the Blog API and can be expanded or adjusted based on additional API features or changes in the API structure.
