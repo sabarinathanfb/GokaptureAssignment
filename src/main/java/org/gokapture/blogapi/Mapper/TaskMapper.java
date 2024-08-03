@@ -2,6 +2,7 @@ package org.gokapture.blogapi.Mapper;
 
 import org.gokapture.blogapi.dtos.TaskResponseDto;
 import org.gokapture.blogapi.models.Task;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,5 +35,10 @@ public class TaskMapper {
                 .collect(Collectors.toList());
 
 
+    }
+
+    public static Page<TaskResponseDto> toDtoPage(Page<Task> tasks) {
+        if(tasks == null) return null;
+        return tasks.map(TaskMapper::toDto);
     }
 }

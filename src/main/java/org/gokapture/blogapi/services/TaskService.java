@@ -5,12 +5,14 @@ import jakarta.transaction.Transactional;
 import org.gokapture.blogapi.models.Task;
 import org.gokapture.blogapi.models.enums.TaskStatus;
 import org.gokapture.blogapi.repositories.TaskRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class TaskService {
@@ -74,6 +76,19 @@ public class TaskService {
     public List<Task> searchTasks(String searchTerm) {
         return taskRepository.searchByTitleOrDescription(searchTerm);
     }
+
+    public Page<Task> getTasks(int numberOfTasks,int offset){
+
+        Page<Task> tasks = taskRepository.findAll(
+                PageRequest.of(offset,numberOfTasks)
+        );
+
+        return tasks;
+    }
+
+
+
+
 
 
 

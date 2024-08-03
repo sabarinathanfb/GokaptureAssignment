@@ -1,6 +1,7 @@
 package org.gokapture.blogapi.controllers;
 
 import org.gokapture.blogapi.Mapper.TaskMapper;
+import org.gokapture.blogapi.dtos.GetTaskRequestDto;
 import org.gokapture.blogapi.dtos.TaskRequestDto;
 import org.gokapture.blogapi.dtos.TaskResponseDto;
 import org.gokapture.blogapi.models.Task;
@@ -9,6 +10,7 @@ import org.gokapture.blogapi.models.enums.TaskStatus;
 import org.gokapture.blogapi.repositories.TaskRepository;
 import org.gokapture.blogapi.repositories.UserRepository;
 import org.gokapture.blogapi.services.TaskService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -116,12 +118,9 @@ public class TaskController {
 
 
 
-
-
-
-
-
-
-
+    @GetMapping("/pagination")
+    public ResponseEntity<Page<Task>> getTasks(@RequestBody GetTaskRequestDto request) {
+        return new ResponseEntity<>(taskService.getTasks(request.getTasks(), request.getOffset()), HttpStatus.OK);
+    }
 
 }
