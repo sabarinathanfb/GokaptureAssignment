@@ -2,31 +2,11 @@ version: '3.8'
 
 services:
   app:
-    image: myapp:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
+    image: gokapture:latest
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/gokaptureAssignment
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-    networks:
-      - my_network
-
-  db:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: gokaptureAssignment
+      - APP_ENV=development
+      - DB_URL=jdbc:mysql://host.docker.internal:3306/gokaptureAssignment
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
     ports:
-      - "3307:3306"
-    networks:
-      - my_network
-
-networks:
-  my_network:
-    driver: bridge
+      - "8080:8001"

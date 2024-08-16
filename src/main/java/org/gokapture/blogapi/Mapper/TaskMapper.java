@@ -37,8 +37,4 @@ public class TaskMapper {
 
     }
 
-    public static Page<TaskResponseDto> toDtoPage(Page<Task> tasks) {
-        if(tasks == null) return null;
-        return tasks.map(TaskMapper::toDto);
-    }
 }
